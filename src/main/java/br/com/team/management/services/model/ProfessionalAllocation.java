@@ -17,30 +17,44 @@ import java.util.Date;
  *
  */
 @Entity
-@Table(name="professionalAllocation")
-@NamedQuery(name="professionalAllocation.findAll", query="SELECT e FROM professionalAllocation e")
-@ApiModel(value="professionalAllocation", description="Entity that represents a professional allocation")
+@Table(name="PROFESSIONALALLOCATION")
+@NamedQuery(name="professionalallocation.findAll", query="SELECT pa FROM ProfessionalAllocation pa")
+@ApiModel(value="professionalallocation", description="Entity that represents a professional allocation")
 public class ProfessionalAllocation implements Serializable {
+
+    private static final long serialVersionUID = 1L;
+
+    public ProfessionalAllocation() {
+    }
+
+    public ProfessionalAllocation(Integer idEmployee, Integer idDirectManager, TypeAllocation typeAllocation, Date startDate, Date endDate) {
+        this.idEmployee = idEmployee;
+        this.idDirectManager = idDirectManager;
+        this.typeAllocation = typeAllocation;
+        this.startDate = startDate;
+        this.endDate = endDate;
+    }
 
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
-    @Column(name="idProfessionalAllocation")
+    @Column(name="idprofessionalallocation")
     @ApiModelProperty(dataType="Int", name="idProfessionalAllocation", required = true, value = "ID of professional allocation")
     private Integer id;
 
-    @Column(name="idEmployee")
+    @Column(name="idemployee")
     @ApiModelProperty(dataType="Int", name="idEmployee", required = true, value = "ID of the allocated employee")
     private Integer idEmployee;
 
-    @Column(name="idDirectManager")
+    @Column(name="iddirectmanager")
     @ApiModelProperty(dataType="Int", name="idDirectManager", required = true, value = "Immediate manager ID")
     private Integer idDirectManager;
 
-    @Column(name="idTypeAllocation")
-    @ApiModelProperty(dataType="Int", name="idTypeAllocation", required = true, value = "ID of type allocation")
-    private Integer idTypeAllocation;
+    @OneToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name="idtypeallocation", nullable=true)
+    @ApiModelProperty(dataType="Int", name="TypeAllocation", required = true, value = "Type allocation")
+    private TypeAllocation typeAllocation;
 
-    @Column(name="dtStart")
+    @Column(name="dtstart")
     @ApiModelProperty(dataType="java.util.Date", name="dtStart", required = true, value = "Start date of allocation")
     @Temporal(TemporalType.DATE)
     @JsonSerialize(using = JsonDateSerializer.class)
@@ -48,7 +62,7 @@ public class ProfessionalAllocation implements Serializable {
     @NotNull
     private Date startDate;
 
-    @Column(name="dtEnd")
+    @Column(name="dtend")
     @ApiModelProperty(dataType="java.util.Date", name="dtEnd", required = true, value = "End date of allocation")
     @Temporal(TemporalType.DATE)
     @JsonSerialize(using = JsonDateSerializer.class)
@@ -80,12 +94,12 @@ public class ProfessionalAllocation implements Serializable {
         this.idDirectManager = idDirectManager;
     }
 
-    public Integer getIdTypeAllocation() {
-        return idTypeAllocation;
+    public TypeAllocation getTypeAllocation() {
+        return typeAllocation;
     }
 
-    public void setIdTypeAllocation(Integer idTypeAllocation) {
-        this.idTypeAllocation = idTypeAllocation;
+    public void setTypeAllocation(TypeAllocation typeAllocation) {
+        this.typeAllocation = typeAllocation;
     }
 
     public Date getStartDate() {

@@ -3,6 +3,8 @@ package br.com.team.management.services.config;
 import javax.ws.rs.ApplicationPath;
 
 import br.com.team.management.services.resource.ProfessionalAllocationResource;
+import br.com.team.management.services.resource.SolicitationStatusResource;
+import br.com.team.management.services.resource.TypeAllocationResource;
 import org.glassfish.jersey.server.ResourceConfig;
 import org.glassfish.jersey.server.wadl.internal.WadlResource;
 import org.springframework.stereotype.Component;
@@ -17,6 +19,9 @@ public class JerseyConfig extends ResourceConfig {
 
 	public JerseyConfig() {
 		register(ProfessionalAllocationResource.class);
+		register(SolicitationStatusResource.class);
+		register(TypeAllocationResource.class);
+
 		register(WadlResource.class);
 		register(ApiListingResource.class);
 		register(SwaggerSerializers.class);
